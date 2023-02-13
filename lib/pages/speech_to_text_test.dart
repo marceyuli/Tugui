@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'dart:async';
 
 class SpeechToTextTest extends StatefulWidget {
   const SpeechToTextTest({super.key});
@@ -11,7 +10,7 @@ class SpeechToTextTest extends StatefulWidget {
 }
 
 class _SpeechToTextStateTest extends State<SpeechToTextTest> {
-  SpeechToText _speechToText = SpeechToText();
+  final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
 
@@ -54,22 +53,22 @@ class _SpeechToTextStateTest extends State<SpeechToTextTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Speech Demo'),
+        title: const Text('Speech Demo'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(16),
-              child: Text(
+              padding: const EdgeInsets.all(16),
+              child: const Text(
                 'Recognized words:',
                 style: TextStyle(fontSize: 20.0),
               ),
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Text(
                   // If listening is active show the recognized words
                   _speechToText.isListening
