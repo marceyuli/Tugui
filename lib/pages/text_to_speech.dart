@@ -1,46 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-class TextToSpeech extends StatefulWidget {
-  const TextToSpeech({super.key});
+class TextToSpeech extends StatelessWidget {
+  final FlutterTts flutterTts = FlutterTts();
+  final TextEditingController textEditingController = TextEditingController();
 
-  @override
-  State<TextToSpeech> createState() => _TextToSpeechState();
-}
-
-class _TextToSpeechState extends State<TextToSpeech> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  speak(String text) async {
+    await flutterTts.setLanguage("es-US");
+    await flutterTts.setPitch(1);
+    await flutterTts.speak(text);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Text to Speech"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Contador:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+    return Container(
+      alignment: Alignment.center,
+      child: Padding(
+        padding: EdgeInsets.all(32),
+        child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          TextFormField(
+            controller: textEditingController,
+          ),
+          ElevatedButton(
+              child: Text("Start text to speech"),
+              onPressed: () => speak(textEditingController.text))
+        ]),
       ),
     );
   }

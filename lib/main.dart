@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'location_page': (BuildContext context) => const LocationPage(),
         'speechToText': (BuildContext context) => const SpeechToTextTest(),
-        'textToSpeech': (BuildContext context) => const TextToSpeech(),
+        'textToSpeech': (BuildContext context) => TextToSpeech(),
         'proximitySensor': (BuildContext context) => const ProximitySensorTest()
       },
     );
