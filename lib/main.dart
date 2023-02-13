@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tuguiapp/pages/pages.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +12,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'IHC',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Tugui the guide Dog'),
+      routes: {
+        'speechToText': (BuildContext context) => const SpeechToText(),
+        'textToSpeech': (BuildContext context) => const TextToSpeech(),
+        'hardwareButtons': (BuildContext context) => const HardwareButtons(),
+        'proximitySensor': (BuildContext context) => const ProximitySensor()
+      },
     );
   }
 }
@@ -42,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(widget.title),
       ),
       body: Center(
