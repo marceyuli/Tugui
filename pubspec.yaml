@@ -36,7 +36,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   proximity_sensor: ^1.0.4
+<<<<<<< HEAD
+  flutter_tts: ^3.6.3
+=======
   speech_to_text: ^6.1.1
+>>>>>>> cd213ab12d935740b46f66d612d4777669d9cf57
 
 dev_dependencies:
   flutter_test:
