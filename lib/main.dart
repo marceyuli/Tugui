@@ -16,20 +16,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-<<<<<<< HEAD
       home: Scaffold(body: Center(child: TextToSpeech())),
       routes: {
-        'speechToText': (BuildContext context) => const SpeechToText(),
-        'textToSpeech': (BuildContext context) => TextToSpeech(),
-        'hardwareButtons': (BuildContext context) => const HardwareButtons(),
-        'proximitySensor': (BuildContext context) => const ProximitySensor()
-=======
-      home: const SpeechToTextTest(),
-      routes: {
         'speechToText': (BuildContext context) => const SpeechToTextTest(),
-        'textToSpeech': (BuildContext context) => const TextToSpeech(),
+        'textToSpeech': (BuildContext context) => TextToSpeech(),
         'proximitySensor': (BuildContext context) => const ProximitySensorTest()
->>>>>>> cd213ab12d935740b46f66d612d4777669d9cf57
       },
     );
   }
