@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ProximitySensorTest(),
+      home: const SpeechToTextTest(),
       routes: {
-        'speechToText': (BuildContext context) => const SpeechToText(),
+        'speechToText': (BuildContext context) => const SpeechToTextTest(),
         'textToSpeech': (BuildContext context) => const TextToSpeech(),
         'proximitySensor': (BuildContext context) => const ProximitySensorTest()
       },
