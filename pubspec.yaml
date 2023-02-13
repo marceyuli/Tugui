@@ -38,6 +38,9 @@ dependencies:
   proximity_sensor: ^1.0.4
   flutter_tts: ^3.6.3
   speech_to_text: ^6.1.1
+  flutter_tts: ^3.6.3
+  geolocator: ^9.0.2
+  geocoding: ^2.0.5
 
 dev_dependencies:
   flutter_test:
