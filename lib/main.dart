@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Tugui the guide Dog'),
+      home: Scaffold(body: Center(child: TextToSpeech())),
       routes: {
         'speechToText': (BuildContext context) => const SpeechToText(),
-        'textToSpeech': (BuildContext context) => const TextToSpeech(),
+        'textToSpeech': (BuildContext context) => TextToSpeech(),
         'hardwareButtons': (BuildContext context) => const HardwareButtons(),
         'proximitySensor': (BuildContext context) => const ProximitySensor()
       },
