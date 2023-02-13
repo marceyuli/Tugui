@@ -16,12 +16,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Tugui the guide Dog'),
+      home: const ProximitySensorTest(),
       routes: {
         'speechToText': (BuildContext context) => const SpeechToText(),
         'textToSpeech': (BuildContext context) => const TextToSpeech(),
-        'hardwareButtons': (BuildContext context) => const HardwareButtons(),
-        'proximitySensor': (BuildContext context) => const ProximitySensor()
+        'proximitySensor': (BuildContext context) => const ProximitySensorTest()
       },
     );
   }

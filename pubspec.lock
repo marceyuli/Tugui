@@ -75,14 +75,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  hardware_buttons:
-    dependency: "direct main"
-    description:
-      name: hardware_buttons
-      sha256: d70fe6bf44fd9e319581b3f651db9924da779c7740cbc2e043dd09798319b16d
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   js:
     dependency: transitive
     description:
