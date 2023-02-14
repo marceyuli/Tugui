@@ -91,25 +91,27 @@ class _DemoAppState extends State<DemoApp> {
           centerTitle: true,
           backgroundColor: const Color.fromRGBO(118, 84, 154, 100),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Image.asset('lib/assets/TUGUI logo.png'),
-            Text('Proximity sensor, is near ? $_isNear\n'),
-            Text(
-              _speechToText.isListening
-                  ? _lastWords
-                  : _speechEnabled
-                      ? 'Use de proximity sensor to start listening...'
-                      : 'Speech not available',
-            ),
-            Text(_lastWords),
-            Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
-            ElevatedButton(
-                child: Text("Start text to speech"),
-                onPressed: () => speak(_lastWords))
-          ],
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset('lib/assets/TUGUI logo.png'),
+              Text('Proximity sensor, is near ? $_isNear\n'),
+              Text(
+                _speechToText.isListening
+                    ? _lastWords
+                    : _speechEnabled
+                        ? 'Use de proximity sensor to start listening...'
+                        : 'Speech not available',
+              ),
+              Text(_lastWords),
+              Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
+              ElevatedButton(
+                  child: Text("Start text to speech"),
+                  onPressed: () => speak(_lastWords))
+            ],
+          ),
         ));
   }
 }
