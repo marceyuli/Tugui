@@ -1,3 +1,4 @@
+import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'dart:async';
@@ -14,17 +15,22 @@ class DemoApp extends StatefulWidget {
 }
 
 class _DemoAppState extends State<DemoApp> {
+
+  late DialogFlowtter dialogFlowtter;
+  final TextEditingController textEditingController = TextEditingController();
+  List<Map<String, dynamic>> messages = [  ];
+
   bool _isNear = false;
   late StreamSubscription<dynamic> _streamSubscription;
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
   final FlutterTts flutterTts = FlutterTts();
-  final TextEditingController textEditingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    DialogFlowtter.fromFile().then((instance) => dialogFlowtter = instance);
     listenSensor();
     _initSpeech();
   }
@@ -109,9 +115,37 @@ class _DemoAppState extends State<DemoApp> {
               Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
               ElevatedButton(
                   child: Text("Start text to speech"),
-                  onPressed: () => speak(_lastWords))
+                  onPressed: () {
+                    speak(_lastWords);
+                    sendMessage(_lastWords);
+                  }),
+              //Text(messages[messages.length - 1]['message'].text.text[0])
             ],
           ),
         ));
+  }
+
+  //del usuario
+  sendMessage(String text) async {
+    if (text.isEmpty) {
+      print('Message is empty');
+    } else {
+      setState(() {
+        addMessage(Message(text: DialogText(text: [text])), true);
+      });
+
+      DetectIntentResponse response = await dialogFlowtter.detectIntent(
+          queryInput: QueryInput(text: TextInput(text: text)));
+      if (response.message == null) return;
+      setState(() {
+        addMessage(response.message!);
+      });
+    }
+  }
+
+  //de dialogflow
+  addMessage(Message message, [bool isUserMessage = false]) {
+    messages.add({'message': message, 'isUserMessage': isUserMessage});
+    print(message);
   }
 }

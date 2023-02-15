@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "tugui-nupp",
+  "private_key_id": "92bd321d71b38989d8be26248cb3d161405ad115",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC61AIG9Sgf4e9w\ngB5Ku9Nq/h4T4WtX/gG/8wXd1C0uO6OaURqy4INv27bYm3RdM5OqdvoIwvFjs4cn\n6tVF3OtQmExNX6Xsep/zRHQ1GhpIImAtg/z5Rry4Faw4fCHVOcHbsiCAWEbHhlzC\nVSNVLuQMmcId2mFBqAcLFjOu07utDZrHHd83f/Ef0qY/QUz2jir+Qkc6LF8enVDi\non38s1zqn1MBeLEYO/g9im9u5NyzcJcOuSwCWYdvLLj6akVo3eNluAOiVozdi+Th\nm7p3XTsyOryqzIOkIdeTDTsBctmHFUHqFEismD+cDWBGfJfEt+rHiuOEBoifUouc\nDyYD4JBVAgMBAAECggEADciEWcUOb8O4aYFaOsM+pr8WsvrHc5duw52HSkVUC/wk\nZscjBB1iNQdtpu9ZF2Mtur7KVYkkS+m7x+sgTuYsiiaiQncTA65MTKM5O42wcK/w\njosVR8K7O42FxikKSfPX5IBwu2dH2YKFJ2UmlSs/cdqKIq+wyyo9UskRiQ1f5DVj\nSti5Pq4dFKLFIsxR0ADUsLG3YCd6Lxk0lR4fOi6LOncAb41vpgdtcFd4Lp3yJwvD\nugtFSPjHydYxGUml4cv1VeRdNYAUGeKeRPLhK5NB3+BUWidke81fvVemG/4Ot/ZS\ngYyPeJgsEzSfTZTKHVHSvtDBcKYSGzt326ySS2nCoQKBgQDyxmSJGIovvWWk6skZ\n1jQQol+aQD7ukrkSGED41ZxgM3gmDtuPbw+0JXI8y2+KvBQpLhvGtjfYEDZmKwq+\nnl8ehG/x82coeauZfYuzheSfFcW8hYRgx49gv6+yNuhAF6Srs4Uj6nRF3S2bFjM8\n/gvjR9eEe+9j0pBXT3Ecuzt2aQKBgQDFAWlUCNyry5ZDYMg5QExMyjS9gK+h3OFZ\nniH3FECwGaz6gzg0D9VoYA4BE0avk9MYlumRwp/D4b4z6pn4qDGeLviXAwAJ57rM\ntgRfV1GrdXNY3BG5wEC848+3uLB40ZoSl9HbJ0nnPzv6OyLFq7miH7vUSdLoXvfw\n48/cfb+FDQKBgQDBZTeLWugh9Z92C66djVy2b5L2/vzi8jDJ8FY5o3jJzdaFgsp2\n7YM1/6qMMYcunnr0/w0Tc+7yiJ+9LcaGaQTe+6Ntu3dO7/W59SAHp76i2CZH8pis\nu+xEpw6gSksjW3JLcVu7a7aqPPJqm/m/OaVgrcdKe6wM+h0P4HH78E8DGQKBgEbd\n7hy7n13xO1l7fCsUFR5ecsBkhUltombRephd4bM3WUE4aMRZmcQVIZSDcZ8BRyOG\nTfkQENau4vPcBY0sO8USUnxIKQBnKowvQb1mNMu/0UF60KmIHgGU1YjaWCjuBUWA\n9Y2nQW99EL8//I8s6fcHAVMpR0QtvXUbDg/b8EQVAoGBAMaEs3p8rHD61hjK5oFO\nd3bxaN/byjp7eY2poE5NPfD4w9PcqgklkBsk2DMusuD125rQoSYqo9D5BpVJXT94\nQ4XltnmagBXKrbsn1aswafxZcPXK1q3FCqmhEtdmvqEi6e1/QNw4v8zfVmlWT92q\n/5J41zBOLi0KlYzJ/JwUP1Cy\n-----END PRIVATE KEY-----\n",
+  "client_email": "tuguiapp@tugui-nupp.iam.gserviceaccount.com",
+  "client_id": "105291670455958059076",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tuguiapp%40tugui-nupp.iam.gserviceaccount.com"
+}
