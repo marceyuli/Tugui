@@ -17,7 +17,6 @@ class DemoApp extends StatefulWidget {
 class _DemoAppState extends State<DemoApp> {
   late DialogFlowtter dialogFlowtter;
   final TextEditingController textEditingController = TextEditingController();
-  //List<Map<String, dynamic>> messages = [];
 
   bool _isNear = false;
   late StreamSubscription<dynamic> _streamSubscription;
@@ -88,6 +87,19 @@ class _DemoAppState extends State<DemoApp> {
     });
   }
 
+  void sendMessage(String text) async {
+    if (text.isEmpty) return;
+
+    DetectIntentResponse response = await dialogFlowtter.detectIntent(
+      queryInput: QueryInput(text: TextInput(text: text)),
+    );
+
+    if (response.message == null) return;
+   
+    String? textResponse = response.text;
+
+    print(textResponse); 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,37 +130,11 @@ class _DemoAppState extends State<DemoApp> {
                     speak(_lastWords);
                     sendMessage(_lastWords);
                   }),
-              //Text(messages[messages.length - 1]['message'].text.text[0])
             ],
           ),
         ));
   }
 
-  void sendMessage(String text) async {
-    if (text.isEmpty) return;
-   /* setState(() {
-      addMessage(
-        Message(text: DialogText(text: [text])),
-        true,
-      );
-    });*/
+  
 
-    DetectIntentResponse response = await dialogFlowtter.detectIntent(
-      queryInput: QueryInput(text: TextInput(text: text)),
-    );
-
-    if (response.message == null) return;
-    /*setState(() {
-      addMessage(response.message!);
-    });*/
-
-    String? textResponse = response.text;
-
-    print(textResponse); 
-  }
-
-  //de dialogflow
- /* addMessage(Message message, [bool isUserMessage = false]) {
-    messages.add({'message': message, 'isUserMessage': isUserMessage});
-  } */
 }
