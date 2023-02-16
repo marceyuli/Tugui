@@ -64,6 +64,7 @@ class _DemoAppState extends State<DemoApp> {
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
       _lastWords = result.recognizedWords;
+      sendMessage(_lastWords);
     });
   }
 
@@ -142,6 +143,7 @@ class _DemoAppState extends State<DemoApp> {
       setState(() {
         _currentAddress =
             '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+        speak(_currentAddress!);
       });
     }).catchError((e) {
       debugPrint(e);
@@ -161,6 +163,7 @@ class _DemoAppState extends State<DemoApp> {
     switch (action) {
       case 'donde.estoy':
         _getCurrentPosition();
+        
         print('Accion match');
         break;
       default:
