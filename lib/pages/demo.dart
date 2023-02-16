@@ -38,29 +38,21 @@ class _DemoAppState extends State<DemoApp> {
     _initSpeech();
   }
 
-  /// This has to happen only once per app
   void _initSpeech() async {
     _speechEnabled = await _speechToText.initialize();
     setState(() {});
   }
 
-  /// Each time to start a speech recognition session
   void _startListening() async {
     await _speechToText.listen(onResult: _onSpeechResult);
     setState(() {});
   }
 
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
   void _stopListening() async {
     await _speechToText.stop();
     setState(() {});
   }
 
-  /// This is the callback that the SpeechToText plugin calls when
-  /// the platform returns recognized words.
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
       _lastWords = result.recognizedWords;
@@ -71,7 +63,7 @@ class _DemoAppState extends State<DemoApp> {
   @override
   void dispose() {
     super.dispose();
-    // _streamSubscription.cancel();
+    _streamSubscription.cancel();
   }
 
   speak(String text) async {
@@ -163,7 +155,7 @@ class _DemoAppState extends State<DemoApp> {
     switch (action) {
       case 'donde.estoy':
         _getCurrentPosition();
-        
+
         print('Accion match');
         break;
       default:
@@ -186,23 +178,6 @@ class _DemoAppState extends State<DemoApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset('lib/assets/TUGUI logo.png'),
-             /* Text('Proximity sensor, is near ? $_isNear\n'),
-              Text(
-                _speechToText.isListening
-                    ? _lastWords
-                    : _speechEnabled
-                        ? 'Use de proximity sensor to start listening...'
-                        : 'Speech not available',
-              ),
-              Text(_lastWords),
-              Text('ADDRESS: ${_currentAddress ?? ""}'),
-              Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
-              ElevatedButton(
-                  child: Text("Start text to speech"),
-                  onPressed: () {
-                    speak(_lastWords);
-                    sendMessage(_lastWords);
-                  }), */
             ],
           ),
         ));
