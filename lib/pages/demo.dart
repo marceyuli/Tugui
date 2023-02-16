@@ -1,6 +1,8 @@
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'dart:async';
 import 'package:proximity_sensor/proximity_sensor.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -17,6 +19,9 @@ class DemoApp extends StatefulWidget {
 class _DemoAppState extends State<DemoApp> {
   late DialogFlowtter dialogFlowtter;
   final TextEditingController textEditingController = TextEditingController();
+  //Ubicacion actual
+  String? _currentAddress;
+  Position? _currentPosition;
 
   bool _isNear = false;
   late StreamSubscription<dynamic> _streamSubscription;
@@ -87,6 +92,62 @@ class _DemoAppState extends State<DemoApp> {
     });
   }
 
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+      _getAddressFromLatLng(_currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
   void sendMessage(String text) async {
     if (text.isEmpty) return;
 
@@ -95,11 +156,19 @@ class _DemoAppState extends State<DemoApp> {
     );
 
     if (response.message == null) return;
-   
-    String? textResponse = response.text;
+    final action = response.queryResult?.action;
 
-    print(textResponse); 
+    switch (action) {
+      case 'donde.estoy':
+        _getCurrentPosition();
+        print('Accion match');
+        break;
+      default:
+        //handle unknown actions
+        break;
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,6 +192,7 @@ class _DemoAppState extends State<DemoApp> {
                         : 'Speech not available',
               ),
               Text(_lastWords),
+              Text('ADDRESS: ${_currentAddress ?? ""}'),
               Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
               ElevatedButton(
                   child: Text("Start text to speech"),
@@ -134,7 +204,4 @@ class _DemoAppState extends State<DemoApp> {
           ),
         ));
   }
-
-  
-
 }
