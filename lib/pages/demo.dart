@@ -186,7 +186,7 @@ class _DemoAppState extends State<DemoApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset('lib/assets/TUGUI logo.png'),
-              Text('Proximity sensor, is near ? $_isNear\n'),
+             /* Text('Proximity sensor, is near ? $_isNear\n'),
               Text(
                 _speechToText.isListening
                     ? _lastWords
@@ -202,7 +202,7 @@ class _DemoAppState extends State<DemoApp> {
                   onPressed: () {
                     speak(_lastWords);
                     sendMessage(_lastWords);
-                  }),
+                  }), */
             ],
           ),
         ));
