@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tuguiapp/pages/demo.dart';
 import 'package:tuguiapp/pages/pages.dart';
-
+import 'pages/home_screen.dart';
 import 'pages/location_page.dart';
 
 void main() {
@@ -19,8 +19,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const DemoApp(),
+      home: const HomeScreen(),
       routes: {
+        'home_screen': (BuildContext context) => const HomeScreen(),
         'location_page': (BuildContext context) => const LocationPage(),
         'speechToText': (BuildContext context) => const SpeechToTextTest(),
         'textToSpeech': (BuildContext context) => TextToSpeech(),

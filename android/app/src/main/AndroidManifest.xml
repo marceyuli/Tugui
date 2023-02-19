@@ -31,6 +31,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name = "com.google.android.geo.API_KEY"
+            android:value="AIzaSyDF2wZV31k2clz5HlF8kJf7OHoiZJHWj_w"/>
     </application>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
             <uses-permission android:name="android.permission.INTERNET"/>
