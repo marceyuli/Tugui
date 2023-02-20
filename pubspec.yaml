@@ -41,6 +41,9 @@ dependencies:
   geolocator: ^9.0.2
   geocoding: ^2.0.5
   dialog_flowtter: ^0.3.3
+  google_maps_flutter: ^2.2.3
+  google_maps_webservice: ^0.0.19
+  http: ^0.13.5
   mailer: ^6.0.0
   google_sign_in: ^6.0.0
 
