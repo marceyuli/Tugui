@@ -41,6 +41,8 @@ dependencies:
   geolocator: ^9.0.2
   geocoding: ^2.0.5
   dialog_flowtter: ^0.3.3
+  mailer: ^6.0.0
+  google_sign_in: ^6.0.0
 
 dev_dependencies:
   flutter_test:

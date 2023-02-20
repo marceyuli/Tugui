@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'dart:async';
 import 'package:proximity_sensor/proximity_sensor.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:mailer/mailer.dart' as mailLibrary;
+
+import '../api/google_auth_api.dart';
 
 class DemoApp extends StatefulWidget {
   const DemoApp({super.key});
@@ -142,6 +146,36 @@ class _DemoAppState extends State<DemoApp> {
     });
   }
 
+  Future sendEmail() async {
+    final user = await GoogleAuthApi.signIn();
+    print(user);
+    if (user == null) {
+      speak('Por favor loggeate');
+      GoogleAuthApi.signOut();
+      GoogleAuthApi.signIn();
+    } else {
+      final email = user.email;
+      final auth = await user.authentication;
+      final token = auth.accessToken!;
+
+      print('authenticated: $email');
+      speak("La ayuda va en camino");
+
+      final smtpServer = gmailSaslXoauth2(email, token);
+      final message = mailLibrary.Message()
+        ..from = mailLibrary.Address(email, 'Tugui')
+        ..recipients = ['mauriciosauzatorrez666@gmail.com']
+        ..subject = 'Tugui user needs your help'
+        ..text = 'This is a test email!';
+
+      try {
+        await mailLibrary.send(message, smtpServer);
+      } on mailLibrary.MailerException catch (e) {
+        print(e);
+      }
+    }
+  }
+
   void sendMessage(String text) async {
     if (text.isEmpty) return;
 
@@ -157,6 +191,11 @@ class _DemoAppState extends State<DemoApp> {
         _getCurrentPosition();
 
         print('Accion match');
+        break;
+      case 'necesito.ayuda':
+        sendEmail();
+
+        print('Action matched');
         break;
       default:
         //handle unknown actions
