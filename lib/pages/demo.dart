@@ -8,6 +8,8 @@ import 'package:proximity_sensor/proximity_sensor.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class DemoApp extends StatefulWidget {
   const DemoApp({super.key});
@@ -29,6 +31,8 @@ class _DemoAppState extends State<DemoApp> {
   bool _speechEnabled = false;
   String _lastWords = '';
   final FlutterTts flutterTts = FlutterTts();
+  String apiKey = "AIzaSyDF2wZV31k2clz5HlF8kJf7OHoiZJHWj_w";
+  String radius = "30";
 
   @override
   void initState() {
@@ -129,10 +133,29 @@ class _DemoAppState extends State<DemoApp> {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
       setState(() => _currentPosition = position);
-      _getAddressFromLatLng(_currentPosition!);
     }).catchError((e) {
       debugPrint(e);
     });
+  }
+
+  Future<List<String>> getNearbyPlaces() async {
+    _getCurrentPosition();
+    double? latitude = _currentPosition?.latitude;
+    double? longitude = _currentPosition?.longitude;
+    var url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=$radius&key=$apiKey');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      List<String> places = [];
+      var data = json.decode(response.body);
+      var results = data['results'];
+      for (var result in results) {
+        places.add(result['name']);
+      }
+      return places;
+    } else {
+      throw Exception("Error");
+    }
   }
 
   Future<void> _getAddressFromLatLng(Position position) async {
@@ -163,8 +186,13 @@ class _DemoAppState extends State<DemoApp> {
     switch (action) {
       case 'donde.estoy':
         _getCurrentPosition();
-        
+        _getAddressFromLatLng(_currentPosition!);
+
         print('Accion match');
+        break;
+      case 'quehay.alrededor':
+        getNearbyPlaces();
+        speakNearbyPlaces();
         break;
       default:
         //handle unknown actions
@@ -186,25 +214,20 @@ class _DemoAppState extends State<DemoApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset('lib/assets/TUGUI logo.png'),
-             /* Text('Proximity sensor, is near ? $_isNear\n'),
-              Text(
-                _speechToText.isListening
-                    ? _lastWords
-                    : _speechEnabled
-                        ? 'Use de proximity sensor to start listening...'
-                        : 'Speech not available',
-              ),
-              Text(_lastWords),
-              Text('ADDRESS: ${_currentAddress ?? ""}'),
-              Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
-              ElevatedButton(
-                  child: Text("Start text to speech"),
-                  onPressed: () {
-                    speak(_lastWords);
-                    sendMessage(_lastWords);
-                  }), */
             ],
           ),
         ));
+  }
+
+  Future<void> speakNearbyPlaces() async {
+    List<String> places = await getNearbyPlaces();
+    String placesString = "";
+    if (places != null) {
+      for (int i = 0; i < places.length; i++) {
+        placesString = placesString + '${places[i].toString()}' + ' , ';
+      }
+    }
+    print(placesString);
+    speak(placesString);
   }
 }
