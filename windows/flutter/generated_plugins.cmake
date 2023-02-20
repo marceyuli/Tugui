@@ -4,10 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   flutter_tts
-<<<<<<< HEAD
   geolocator_windows
-=======
->>>>>>> 0477f7044864af061314e3f8ed82acc4f7354c6c
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

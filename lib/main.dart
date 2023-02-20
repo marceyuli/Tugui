@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tuguiapp/pages/demo.dart';
 import 'package:tuguiapp/pages/pages.dart';
 
 import 'pages/location_page.dart';
@@ -18,12 +19,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LocationPage(),
+      home: const DemoApp(),
       routes: {
         'location_page': (BuildContext context) => const LocationPage(),
         'speechToText': (BuildContext context) => const SpeechToTextTest(),
         'textToSpeech': (BuildContext context) => TextToSpeech(),
-        'proximitySensor': (BuildContext context) => const ProximitySensorTest()
+        'proximitySensor': (BuildContext context) =>
+            const ProximitySensorTest(),
+        'demo': (BuildContext context) => const DemoApp(),
       },
     );
   }

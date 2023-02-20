@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "824840560166",
+    "project_id": "signin-4b799",
+    "storage_bucket": "signin-4b799.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824840560166:android:4208a6efd5aa0659d550e7",
+        "android_client_info": {
+          "package_name": "com.example.tuguiapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824840560166-6ra9te6s9vmco2n34n5kc25knt4r5pve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaFdQdf-L9AnIXsoWh5X2pR5-a4V09tQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824840560166-6ra9te6s9vmco2n34n5kc25knt4r5pve.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
