@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tuguiapp/pages/demo.dart';
 import 'package:tuguiapp/pages/pages.dart';
-
 import 'pages/location_page.dart';
 
 void main() {
