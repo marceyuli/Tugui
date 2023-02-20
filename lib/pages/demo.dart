@@ -12,6 +12,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:mailer/mailer.dart' as mailLibrary;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 
 import '../api/google_auth_api.dart';
 
@@ -38,12 +40,24 @@ class _DemoAppState extends State<DemoApp> {
   String apiKey = "AIzaSyDF2wZV31k2clz5HlF8kJf7OHoiZJHWj_w";
   String radius = "30";
 
+
   @override
   void initState() {
     super.initState();
     DialogFlowtter.fromFile().then((instance) => dialogFlowtter = instance);
     listenSensor();
     _initSpeech();
+    requestPermission();
+  }
+
+  void requestPermission() async {
+    var status = await Permission.sms.status;
+    if (!status.isGranted) {
+      status = await Permission.sms.request();
+      if (!status.isGranted) {
+        // Handle permission denied
+      }
+    }
   }
 
   void _initSpeech() async {
@@ -221,9 +235,15 @@ class _DemoAppState extends State<DemoApp> {
         speakNearbyPlaces();
         break;
       case 'necesito.ayuda':
-        sendEmail();
+        String message = "This is a test message!";
+        List<String> recipents = ["73883886"];
 
-        print('Action matched');
+        String _result = await sendSMS(
+                message: message, recipients: recipents, sendDirect: true)
+            .catchError((onError) {
+          print(onError);
+        });
+        print(_result);
         break;
       default:
         //handle unknown actions
