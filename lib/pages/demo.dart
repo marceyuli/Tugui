@@ -40,7 +40,6 @@ class _DemoAppState extends State<DemoApp> {
   String apiKey = "AIzaSyDF2wZV31k2clz5HlF8kJf7OHoiZJHWj_w";
   String radius = "30";
 
-
   @override
   void initState() {
     super.initState();
@@ -235,7 +234,13 @@ class _DemoAppState extends State<DemoApp> {
         speakNearbyPlaces();
         break;
       case 'necesito.ayuda':
-        String message = "This is a test message!";
+        Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+        String latitude = position.latitude.toString();
+        String longitude = position.longitude.toString();
+        String mapsLink =
+            "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
+        String message = "Ayuda me perdi!" + mapsLink;
         List<String> recipents = ["73883886"];
 
         String _result = await sendSMS(
