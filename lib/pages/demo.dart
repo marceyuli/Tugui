@@ -212,6 +212,10 @@ class _DemoAppState extends State<DemoApp> {
 
   Future sendEmail() async {
     final user = await GoogleAuthApi.signIn();
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    String latitude = position.latitude.toString();
+    String longitude = position.longitude.toString();
     print(user);
     if (user == null) {
       speak('Por favor loggeate');
@@ -230,7 +234,9 @@ class _DemoAppState extends State<DemoApp> {
         ..from = mailLibrary.Address(email, 'Tugui')
         ..recipients = ['mauriciosauzatorrez666@gmail.com']
         ..subject = 'Tugui user needs your help'
-        ..text = 'This is a test email!';
+        // ..text = 'This is a test email!'
+        ..html =
+            "<h1>Necesito tu ayuda!</h1>\n<a href='https://www.google.com/maps/search/?api=1&query=$latitude,$longitude'>Presiona aqui para ver la localización</a>";
 
       try {
         await mailLibrary.send(message, smtpServer);
@@ -278,6 +284,7 @@ class _DemoAppState extends State<DemoApp> {
             .catchError((onError) {
           print(onError);
         });
+        sendEmail();
         print(_result);
         break;
       default:
