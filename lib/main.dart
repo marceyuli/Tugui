@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tuguiapp/pages/contact_picker.dart';
 import 'package:tuguiapp/pages/demo.dart';
-import 'package:tuguiapp/pages/pages.dart';
-import 'pages/location_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,12 +19,8 @@ class MyApp extends StatelessWidget {
       ),
       home: const DemoApp(),
       routes: {
-        'location_page': (BuildContext context) => const LocationPage(),
-        'speechToText': (BuildContext context) => const SpeechToTextTest(),
-        'textToSpeech': (BuildContext context) => TextToSpeech(),
-        'proximitySensor': (BuildContext context) =>
-            const ProximitySensorTest(),
         'demo': (BuildContext context) => const DemoApp(),
+        'contacts': (BuildContext context) => const ContactPicker(),
       },
     );
   }

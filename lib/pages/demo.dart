@@ -14,6 +14,7 @@ import 'dart:convert';
 import 'package:mailer/mailer.dart' as mailLibrary;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_sms/flutter_sms.dart';
+import 'package:tuguiapp/pages/contact_picker.dart';
 
 import '../api/google_auth_api.dart';
 
@@ -31,7 +32,6 @@ class _DemoAppState extends State<DemoApp> {
   String? _currentAddress;
   Position? _currentPosition;
 
-  bool _isNear = false;
   late StreamSubscription<dynamic> _streamSubscription;
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
@@ -46,18 +46,33 @@ class _DemoAppState extends State<DemoApp> {
     DialogFlowtter.fromFile().then((instance) => dialogFlowtter = instance);
     listenSensor();
     _initSpeech();
+    _getCurrentPosition();
     requestPermission();
+    const ContactPicker();
   }
 
-  void requestPermission() async {
-    var status = await Permission.sms.status;
-    if (!status.isGranted) {
-      status = await Permission.sms.request();
-      if (!status.isGranted) {
-        // Handle permission denied
-      }
-    }
+  @override
+  void dispose() {
+    super.dispose();
+    _streamSubscription.cancel();
   }
+
+  // PROXIMITY SENSOR
+
+  Future<void> listenSensor() async {
+    FlutterError.onError = (FlutterErrorDetails details) {
+      if (foundation.kDebugMode) {
+        FlutterError.dumpErrorToConsole(details);
+      }
+    };
+    _streamSubscription = ProximitySensor.events.listen((int event) {
+      setState(() {
+        _speechToText.isNotListening ? _startListening() : _stopListening();
+      });
+    });
+  }
+
+  // SPEECH TO TEXT
 
   void _initSpeech() async {
     _speechEnabled = await _speechToText.initialize();
@@ -81,11 +96,7 @@ class _DemoAppState extends State<DemoApp> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _streamSubscription.cancel();
-  }
+  // TEXT TO SPEECH
 
   speak(String text) async {
     await flutterTts.setLanguage("es-US");
@@ -93,18 +104,7 @@ class _DemoAppState extends State<DemoApp> {
     await flutterTts.speak(text);
   }
 
-  Future<void> listenSensor() async {
-    FlutterError.onError = (FlutterErrorDetails details) {
-      if (foundation.kDebugMode) {
-        FlutterError.dumpErrorToConsole(details);
-      }
-    };
-    _streamSubscription = ProximitySensor.events.listen((int event) {
-      setState(() {
-        _speechToText.isNotListening ? _startListening() : _stopListening();
-      });
-    });
-  }
+  // WHERE I AM
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -135,6 +135,21 @@ class _DemoAppState extends State<DemoApp> {
     return true;
   }
 
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+        speak(_currentAddress!);
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
 
@@ -146,6 +161,8 @@ class _DemoAppState extends State<DemoApp> {
       debugPrint(e);
     });
   }
+
+  // NEARBY PLACES
 
   Future<List<String>> getNearbyPlaces() async {
     _getCurrentPosition();
@@ -167,20 +184,31 @@ class _DemoAppState extends State<DemoApp> {
     }
   }
 
-  Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(
-            _currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _currentAddress =
-            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-        speak(_currentAddress!);
-      });
-    }).catchError((e) {
-      debugPrint(e);
-    });
+  // HELP SMS
+
+  Future<void> speakNearbyPlaces() async {
+    List<String> places = await getNearbyPlaces();
+    String placesString = "";
+    if (places != null) {
+      for (int i = 0; i < places.length; i++) {
+        placesString = placesString + '${places[i].toString()}' + ' , ';
+      }
+    }
+    print(placesString);
+    speak(placesString);
   }
+
+  void requestPermission() async {
+    var status = await Permission.sms.status;
+    if (!status.isGranted) {
+      status = await Permission.sms.request();
+      if (!status.isGranted) {
+        // Handle permission denied
+      }
+    }
+  }
+
+  // HELP EMAIL
 
   Future sendEmail() async {
     final user = await GoogleAuthApi.signIn();
@@ -212,6 +240,8 @@ class _DemoAppState extends State<DemoApp> {
     }
   }
 
+  // DIALOGFLOW
+
   void sendMessage(String text) async {
     if (text.isEmpty) return;
 
@@ -235,7 +265,7 @@ class _DemoAppState extends State<DemoApp> {
         break;
       case 'necesito.ayuda':
         Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+            desiredAccuracy: LocationAccuracy.high);
         String latitude = position.latitude.toString();
         String longitude = position.longitude.toString();
         String mapsLink =
@@ -273,17 +303,5 @@ class _DemoAppState extends State<DemoApp> {
             ],
           ),
         ));
-  }
-
-  Future<void> speakNearbyPlaces() async {
-    List<String> places = await getNearbyPlaces();
-    String placesString = "";
-    if (places != null) {
-      for (int i = 0; i < places.length; i++) {
-        placesString = placesString + '${places[i].toString()}' + ' , ';
-      }
-    }
-    print(placesString);
-    speak(placesString);
   }
 }
